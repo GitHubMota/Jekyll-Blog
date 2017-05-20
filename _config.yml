@@ -2,13 +2,13 @@
 name: Mota's Blog
 email: motablow@gmail.com
 author: Mota
-url: TODO
-resume_site: TODO
+url: https://www.google.com
+resume_site: https://www.google.com
 github: https://github.com/githubmota/
 baseurl: ""
-description: Stay hungry, stay foolish.
+description: Stay hungry, stay foolish!
 meta_description: mota;个人博客
-motto: Every flight start at floor.
+motto: Every flight start at floor!
 banner: To Do To Search To Study
 
 #permalink: /:categories/:year/:month/:day/:title/

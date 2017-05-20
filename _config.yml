@@ -1,0 +1,27 @@
+# Site settings
+name: Mota's Blog
+email: motablow@gmail.com
+author: Mota
+url: TODO
+resume_site: TODO
+github: https://github.com/githubmota/
+baseurl: ""
+description: Stay hungry, stay foolish.
+meta_description: mota;个人博客
+motto: Every flight start at floor.
+banner: To Do To Search To Study
+
+#permalink: /:categories/:year/:month/:day/:title/
+permalink: /:year/:month/:day/:title/
+paginate: 10
+
+exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
+
+github_username: githubmota
+highlighter: Pygments
+
+# Build settings
+markdown: kramdown
+
+baidu_analysis: 94be4b0f9fc5d94cc0d0415ea6761ae9
+gems: [jekyll-paginate]

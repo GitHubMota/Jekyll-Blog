@@ -25,8 +25,8 @@ Linux netcat 命令实例：
 ---------------------------------------
 
 端口扫描经常被系统管理员和黑客用来发现在一些机器上开放的端口，帮助他们识别系统中的漏洞。
-
-> $nc -z -v -n 172.31.100.7 21-25
+	
+    $nc -z -v -n 172.31.100.7 21-25
 
 可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.
 z 参数告诉netcat使用0 IO,连接成功后立即关闭连接， 不进行数据交换(谢谢@jxing 指点)
@@ -39,7 +39,7 @@ n 参数告诉netcat 不要使用DNS反向查询IP地址的域名
 
 一旦你发现开放的端口，你可以容易的使用netcat 连接服务抓取他们的banner。
 
-> $ nc -v 172.31.100.7 21
+    $ nc -v 172.31.100.7 21
 
 netcat 命令会连接开放端口21并且打印运行在这个端口上服务的banner信息。
 
@@ -50,13 +50,13 @@ netcat 命令会连接开放端口21并且打印运行在这个端口上服务�
 
 Server
 
-> $nc -l 1567
+    $nc -l 1567
 
 netcat 命令在1567端口启动了一个tcp 服务器，所有的标准输出和输入会输出到该端口。输出和输入都在此shell中展示。
 
 Client
 
-> $nc 172.31.100.7 1567
+    $nc 172.31.100.7 1567
 
 不管你在机器B上键入什么都会出现在机器A上。
 
@@ -67,10 +67,11 @@ Client
 
 Server
 
-> $nc -l 1567 < file.txt
+    $nc -l 1567 < file.txt
 
 Client
-> $nc -n 172.31.100.7 1567 > file.txt
+    
+    $nc -n 172.31.100.7 1567 > file.txt
 
 这里我们创建了一个服务器在A上并且重定向netcat的输入为文件file.txt，那么当任何成功连接到该端口，netcat会发送file的文件内容。
 在客户端我们重定向输出到file.txt，当B连接到A，A发送文件内容，B保存文件内容到file.txt.
@@ -81,11 +82,11 @@ B作为Server
 
 Server
 
-> $nc -l 1567 > file.txt
+    $nc -l 1567 > file.txt
 
 Client
 
-> nc 172.31.100.23 1567 < file.txt
+    nc 172.31.100.23 1567 < file.txt
 
 目录传输
 ---------------------------------------
@@ -96,12 +97,11 @@ Client
 
 Server
 
-> $tar -cvf – dir_name | nc -l 1567
+    $tar -cvf – dir_name | nc -l 1567
 
 Client
 
-
-> $nc -n 172.31.100.7 1567 | tar -xvf -
+    $nc -n 172.31.100.7 1567 | tar -xvf -
 
 这里在A服务器上，我们创建一个tar归档包并且通过-在控制台重定向它，然后使用管道，重定向给netcat，netcat可以通过网络发送它。
 在客户端我们下载该压缩包通过netcat 管道然后打开文件。
@@ -110,15 +110,13 @@ Client
 
 Server
 
-
-> $tar -cvf – dir_name| bzip2 -z | nc -l 1567
+    $tar -cvf – dir_name| bzip2 -z | nc -l 1567
 
 通过bzip2压缩
 
 Client
 
-
-> $nc -n 172.31.100.7 1567 | bzip2 -d |tar -xvf -
+    $nc -n 172.31.100.7 1567 | bzip2 -d |tar -xvf -
 
 使用bzip2解压
 
@@ -129,12 +127,12 @@ Client
 
 服务端
 
-> $nc localhost 1567 | mcrypt –flush –bare -F -q -d -m ecb > file.txt
+    $nc localhost 1567 | mcrypt –flush –bare -F -q -d -m ecb > file.txt
 
 使用mcrypt工具加密数据。
 客户端
 
-> $mcrypt –flush –bare -F -q -m ecb < file.txt | nc -l 1567
+    $mcrypt –flush –bare -F -q -m ecb < file.txt | nc -l 1567
 
 使用mcrypt工具解密数据。
 以上两个命令会提示需要密码，确保两端使用相同的密码。
@@ -148,10 +146,11 @@ Client
 
 服务端
 
-> $cat video.avi | nc -l 1567
+    $cat video.avi | nc -l 1567
 
 这里我们只是从一个视频文件中读入并重定向输出到netcat客户端
-> $nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -
+    
+    $nc 172.31.100.7 1567 | mplayer -vo x11 -cache 3000 -
 
 这里我们从socket中读入数据并重定向到mplayer。
 
@@ -164,10 +163,11 @@ Client
 
 Server
 
-> $dd if=/dev/sda | nc -l 1567
+    $dd if=/dev/sda | nc -l 1567
 
 Client
-> $nc -n 172.31.100.7 1567 | dd of=/dev/sda
+    
+    $nc -n 172.31.100.7 1567 | dd of=/dev/sda
 
 dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定向它的输出流到其他机器并且写入到磁盘中，它会随着分区表拷贝所有的信息。但是如果我们已经做过分区并且只需要克隆root分区，我们可以根据我们系统root分区的位置，更改sda 为sda1，sda2.等等。
 

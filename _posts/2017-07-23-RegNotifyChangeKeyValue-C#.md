@@ -2,7 +2,7 @@
 layout: post
 title:  C#监视注册表--RegNotifyChangeKeyValue
 date:   2017-07-23 12:17:27 +0800
-categories: Application
+categories: Dev
 tag: C#
 ---
 

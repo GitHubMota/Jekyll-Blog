@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  IDEA基于TestNG测试框架使用DataProvider问题调试
+title:  IDEA TestNG DataProvider问题调试
 date:   2017-11-30 23:20:57 +0800
 categories: Dev
-tag: TestNG IDEA Debug Java
+tag: Java
 ---
 
 * content
@@ -51,6 +51,7 @@ tag: TestNG IDEA Debug Java
 
     GET www.baidu.com
     GET www.google.com
+
 实际只输出
 
     GET www.baidu.com
@@ -110,6 +111,7 @@ tag: TestNG IDEA Debug Java
     …
     invokeTestMethod
     …}
+    
 查看其循环条件中`allParameterValues`为Object[]类型迭代器，
 Object[][] `allParameterValues.m_objects`内只存放了`www.baidu.com`. 所以循环只执行一次，只输出了
 `GET www.baidu.com`.
@@ -130,6 +132,7 @@ Debug `createParameters`函数一层层进入直到`handleParameters`函数，�
        * @return An Iterator over the values for each parameter of this
        * method.
        */
+       
 从注释中可以确认其使用`DataProvider`解析参数.
       
       parameters = MethodInvocationHelper.invokeDataProvider(
@@ -169,6 +172,7 @@ Debug `createParameters`函数一层层进入直到`handleParameters`函数，�
           return new ArrayIterator(result.toArray(new Object[list.size()][]));
         }
       }
+      
 分析`if(list.contains(i))`代码部分及结合注释可以知道， 该函数使用第二个参数对参数组进行过滤，如果`list`包含数字`i` ,则过滤出参数组索引为`i`的，在该问题环境代码中，`list`只包含一个元素`0`，导致第0组参数`www.baidu.com`被过滤出来，最终只执行了该参数的方法.
 
 对比正常情况`list`应该为`null`， 接下来debug `list`在何处被错误设置的.
@@ -180,6 +184,7 @@ Debug `createParameters`函数一层层进入直到`handleParameters`函数，�
         m_invocationNumbers = list;
         m_index = index;
       }
+      
 在该函数中加入断点重新debug，在第二次执行到该处时其被赋值为只包含一个元素`0`的`list`，此时调用栈如下
 
     "main@1" prio=5 tid=0x1 nid=NA runnable
@@ -187,13 +192,14 @@ Debug `createParameters`函数一层层进入直到`handleParameters`函数，�
           at org.testng.xml.XmlInclude.<init>(XmlInclude.java:37)
           at org.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:59)
     	  at org.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:123)
+
 本地没有IDEA的代码，在网上搜索，找到`IDEARemoteTestNG.java`
 
     for (XmlInclude include : aClass.getIncludedMethods()) {	
         includes.add(new XmlInclude(include.getName(), Collections.singletonList(Integer.parseInt(myParam)), 0));
 	}
 
-｀XmlInclue｀函数在该处调用，并且传入参数`Collections.singletonList`为`list`,`myParam`值为`0` `(通过IDEA在debugger窗口定位到org.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:59)后加入myParam监视获得）`
+`XmlInclue`函数在该处调用，并且传入参数`Collections.singletonList`为`list`,`myParam`值为`0` `(通过IDEA在debugger窗口定位到org.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:59)后加入myParam监视获得）`
 
 `myParam`赋值
 
@@ -201,9 +207,11 @@ Debug `createParameters`函数一层层进入直到`handleParameters`函数，�
         public IDEARemoteTestNG(String param) {
         myParam = param;
     }
+
 调用处在`RemoteTestNGStarter.java中`
 	
     final IDEARemoteTestNG testNG = new IDEARemoteTestNG(param);
+
 查看`param`赋值处如下
 
     public static void main(String[] args) throws Exception {	
@@ -243,6 +251,7 @@ Test runner params
     protected List<String> getNamedParams(String parameters) {	
         return Collections.singletonList("@name" + parameters);
 	}
+
 该函数`getNamedParams`添加的`@name`前缀，而其被调用处`testng/configuration/TestNGRunnableState.java`
 
       @Override
@@ -255,6 +264,7 @@ Test runner params
           return Arrays.asList(parameters.split(" "));
         }
       }
+
 可知当`Test runner params`参数为数字`${num}`时，传入参数`@name${num}`.不为数字时，直接传参.
 
 在以后使用中，可以通过设置`Test runner params`为数字，使其单独运行DataProvider某一组参数.

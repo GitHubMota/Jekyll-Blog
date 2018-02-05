@@ -117,7 +117,7 @@ Case 3 | Set | 13217  | 24| 31
 
 图形化set 1k性能对比，横坐标为当前已使用内存，纵坐标为TPS.
 
-![1k value 100G Set Tps](../styles/images/2018-02-05-Optane-SSD-Memory-Benchmark-2/1k_value_100G_Set_Tps.png)
+![1k value 100G Set Tps]({{ '/styles/images/2018-02-05-Optane-SSD-Memory-Benchmark-2/1k_value_100G_Set_Tps.png' | prepend: site.baseurl  }})
 
 从上面图表中看出在0-100GB数据场景下，写入new key的性能大概降至70%, 延迟波动比较大。读key的性能大概为80%
 
@@ -132,7 +132,7 @@ Get | 229631 | 1 | 1
 
 IMDT 600GB数据持续写入tps与已使用内存关系如下图：
 
-![1k value 600G Set Tps](../styles/images/2018-02-05-Optane-SSD-Memory-Benchmark-2/1k_value_600G_Set_Tps.png)
+![1k value 600G Set Tps]({{ '/styles/images/2018-02-05-Optane-SSD-Memory-Benchmark-2/1k_value_600G_Set_Tps.png' | prepend: site.baseurl  }})
 
 从上图中可以看到IMDT下内存达到100GB和600GB时tps无差异.
 

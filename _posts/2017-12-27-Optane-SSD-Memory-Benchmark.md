@@ -232,6 +232,9 @@ Test No.| Read/Write| TPS(us) | TP999(us) | Maxi Time(us)
 
 特别是了解了CPU的NUMA架构以及感受到了其对性能的影响，在以后性能测试中注意该问题
 
+参考
+----------
+
 [扩展内存: intel-memory-drive-technology](https://www.intel.com/content/www/us/en/software/intel-memory-drive-technology.html)
 
 [Linux 运行进程实时监控pidstat命令详解](http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2858874.html)

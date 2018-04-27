@@ -235,7 +235,7 @@ join/wait 异常堆栈代码
         }
     }
 
-后来在[github issue](https://github.com/sgroschupf/zkclient/issues/34)里也找到,zkclient代码还是暂时不动吧.
+后来在[github issue](https://github.com/sgroschupf/zkclient/issues/34)里也找到有zk用户提出该问题,zkclient代码还是暂时不动吧.
 
 建议用户close前添加sleep, 避开该问题,同时new client采用单例,毕竟一个应用与zk 保持一个client就可以,与redis的连接并发多个是没问题的.
 
@@ -250,3 +250,6 @@ join/wait 异常堆栈代码
 R2M系统介绍
 ----------
 R2M系统是基于开源的Redis cluster(Redis 3.0以上版本)研发的高性能的分布式缓存系统,京东金融的大部分缓存服务都是跑在R2M上,已经平稳的保障了多次双十一和618大促,性能,可靠性和数据一致性得到了充分的验证.R2M在满足业务要求的同时,也一直在优化运维的需求,提供Web化的一键部署,数据平衡（Rebalance）,水平扩容,数据迁移,监控告警,在线命令行管理,多机房切换等一系列功能.R2M系统架构上保持精简,不依赖其他团队的组件,可以在新环境快速进行独立部署.
+
+[R2M系统详情查看](https://studygolang.com/articles/10958?fr=sidebar)
+
